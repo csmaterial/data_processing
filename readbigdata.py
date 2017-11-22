@@ -6,6 +6,10 @@ Created on Wed Nov 22 09:12:47 2017
 @author: czy
 """
 import re
+import numpy as np
+import pandas as pd
+address = '/home/czy/beerdata.csv'
+
 
 def open_txt(file_name,num):
     with open(file_name,'rb') as f:
@@ -83,6 +87,23 @@ for text in open_txt('/home/czy/temp/ratebeer.txt',65848):
         #print(e)
         #print('Warning')
         1+1
+     
+
+tee = np.zeros((len(app),7))            
+ee = pd.DataFrame(tee)   
+ee[0] = username
+ee[1] = itemname
+ee[2] = app
+ee[3] = aro
+ee[4] = pal
+ee[5] = tas
+ee[6] = ove                    
+         
+ee.columns = ['user','item','app','aro','pal','tas','ove']
+           
+ee.to_csv(address)    
+
+
 
 '''
 fname = '/home/czy/temp/ratebeer.txt'
