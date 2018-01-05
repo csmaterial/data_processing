@@ -18,13 +18,13 @@ def makenamelist(ee,col):
     user = ee[col]
     l = []
     
-    for i in range(len(ee)):
+    for i in range(len(user)):
         te = user[i]
         #print(te)
         if te not in l:
             l.append(te)
         
-    for i in range(len(ee)):
+    for i in range(len(user)):
         te = user[i]
         num = l.index(te)
         user[i] = num
