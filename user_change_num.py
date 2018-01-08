@@ -14,8 +14,9 @@ address = '/home/czy/beerdata.csv'
 ee = pd.read_csv(address)
 
 def makenamelist(ee,col):
-        
-    user = ee[col]
+    name =  pd.DataFrame(ee[col])
+    user = pd.Series(ee[col])
+    
     l = []
     
     for i in range(len(user)):
@@ -27,11 +28,11 @@ def makenamelist(ee,col):
     for i in range(len(user)):
         te = user[i]
         num = l.index(te)
-        user[i] = num
-    return user
+        user[int(i)] = num
+    return (user,name)
 
-#user = makenamelist(ee,'user')
-item = makenamelist(ee,'item')
+(item,itemname) = makenamelist(M1,'asin')
+
 
 newaddress = '/home/czy/user_beerdata.csv'
 ee.to_csv(newaddress)  
