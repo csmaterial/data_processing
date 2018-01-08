@@ -1,0 +1,82 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan  8 09:31:23 2018
+
+@author: zhang
+"""
+
+#import MF
+import pandas as pd
+import numpy as np
+# X = MF(r,lamda,beta,step,X)
+Amazonname = 'Musical_Instruments'
+filename = 'E:\\amazon\\%s_5.json'%Amazonname
+with open(filename, 'rb') as f:
+    data = f.readlines()
+M1 = []
+for num in range(len(data)):
+        
+    e = str(data[num], encoding = "utf-8")
+    data[num] = e[0:len(e)-1]
+    M = pd.read_json(e)
+    if len(M1) == 0:
+        M1 = M.drop(1)
+    else:
+        M1 = M1.append(M.drop(1))
+M1.index = range(len(M1))
+    #print(num)
+#df = pd.Series(data)
+#df.to_json(filename)
+f.close
+#asin  product
+#reviewerID user
+#overall rating
+#reviewText/summary word
+
+def makenamelist(ee,col):
+    name =  pd.DataFrame(ee[col])
+    user = pd.Series(ee[col])
+    
+    l = []
+    
+    for i in range(len(user)):
+        te = user[i]
+        #print(te)
+        if te not in l:
+            l.append(te)
+        
+    for i in range(len(user)):
+        te = user[i]
+        num = l.index(te)
+        user[int(i)] = int(num)
+    return (user,name)
+
+(item,itemname) = makenamelist(M1,'asin')
+(user,username) = makenamelist(M1,'reviewerID')
+
+rating = M1['overall']
+rate = pd.DataFrame(np.random.rand(len(M1),3))
+rate[0] = user
+rate[1] = item
+rate[2] = rating
+rate = np.array(rate)
+
+file = 'E:\\amazon\\num\\%s'%Amazonname
+np.savetxt('%s_rate.txt'%file,rate,delimiter=' ')
+
+
+word = pd.DataFrame(np.random.rand(len(M1),2))
+word[0] = M1['reviewText']
+word[1] = M1['summary']
+word.columns = ['reviewText','summary']
+
+word.to_csv('%s_word.csv'%file)
+
+na = pd.DataFrame(np.random.rand(len(M1),2))
+na[0] = username
+na[1] = itemname
+na.columns = ['username','itemname']
+
+na.to_csv('%s_name.csv'%file)
+
+
